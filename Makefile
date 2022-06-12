@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------- #
-# cluster
+# charts commands
 # ---------------------------------------------------------------------------- #
 
 ## Checks that helm charts are correctly formatted
@@ -19,7 +19,7 @@ add:
 	helm repo add gpenaud https://gpenaud.github.io/helm-charts/
 
 ## Checks that helm charts are correctly formatted
-process: package index 
+process: package index
 
 # ---------------------------------------------------------------------------- #
 # 																																						 #
