@@ -3,14 +3,14 @@ entries:
   alterconso:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2022-06-12T11:10:56.496048759+02:00"
+    created: "2022-06-12T11:29:28.97253799+02:00"
     dependencies:
     - condition: mysql.enabled
       name: mysql
       repository: ""
       version: 0.1.0
     description: The Alterconso Helm chart for Kubernetes
-    digest: 03e8b6e7fb99f6fe8f328fc2d7b36a888bce99adc92be2f5a8da3e0cc21264aa
+    digest: d51e9202ce3a5499879834a7aa1f5d029338d4c9b31f14e6575d31cb0f27e015
     keywords:
     - application
     - web
@@ -25,6 +25,118 @@ entries:
     - https://github.com/gpenaud/helm-alterconso.git
     type: application
     urls:
-    - https://github.com/gpenaud/helm-charts.git/alterconso-0.1.5.tgz
+    - https://gpenaud.github.io/helm-charts/alterconso-0.1.5.tgz
     version: 0.1.5
-generated: "2022-06-12T11:10:56.494849559+02:00"
+  cert-manager-issuers:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2022-06-12T11:29:28.97275169+02:00"
+    description: The cert-manager-issuers Helm chart for Kubernetes
+    digest: c5e4d8417c70be0f3367f593366376efe904ec1eec16d922245fca96867b6171
+    keywords:
+    - system
+    maintainers:
+    - email: guillaume.penaud@gmail.com
+      name: Guillaume Penaud
+    name: cert-manager-issuers
+    sources:
+    - https://github.com/gpenaud/helm-cert-manager-issuers.git
+    type: application
+    urls:
+    - https://gpenaud.github.io/helm-charts/cert-manager-issuers-0.1.0.tgz
+    version: 0.1.0
+  grafana-operator-resources:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2022-06-12T11:29:28.973869162+02:00"
+    description: Deploys encrypted configmaps and secrets
+    digest: 429578e242d959a371ae47389620bb9f1fd352cacb930044e5bd8d19de33d01c
+    keywords:
+    - grafana
+    - monitoring
+    maintainers:
+    - email: guillaume.penaud@gmail.com
+      name: Guillaume Penaud
+    name: grafana-operator-resources
+    urls:
+    - https://gpenaud.github.io/helm-charts/grafana-operator-resources-0.0.1.tgz
+    version: 0.0.1
+  hairpin-protocol:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2022-06-12T11:29:28.974099645+02:00"
+    description: Implementation of hairpin protocol, which allows cert-manager to
+      challenge against http01
+    digest: b7eb7f12c27e4011f7078dd85604d17d4dda6cee98dee5f7543a994690170034
+    keywords:
+    - system
+    maintainers:
+    - email: guillaume.penaud@gmail.com
+      name: Guillaume Penaud
+    name: hairpin-protocol
+    sources:
+    - https://github.com/gpenaud/helm-hairpin-protocol.git
+    type: application
+    urls:
+    - https://gpenaud.github.io/helm-charts/hairpin-protocol-0.1.1.tgz
+    version: 0.1.1
+  nginx-ingress:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2022-06-12T11:29:28.974531183+02:00"
+    description: The nginx-ingress Helm chart for Kubernetes
+    digest: 1a1d76eda8a961894e430869526f9e8a3ac063fe1659fcbde573fbb114d43dc4
+    keywords:
+    - system
+    maintainers:
+    - email: guillaume.penaud@gmail.com
+      name: Guillaume Penaud
+    name: nginx-ingress
+    sources:
+    - https://github.com/gpenaud/helm-nginx-ingress.git
+    type: application
+    urls:
+    - https://gpenaud.github.io/helm-charts/nginx-ingress-0.1.0.tgz
+    version: 0.1.0
+  prometheus-operator-resources:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2022-06-12T11:29:28.974777155+02:00"
+    description: Deploys prometheus operator resources
+    digest: 3a1d9bc077ef3edf924678bc6cafa122a7f3009855bcea696cbeda72efc8912a
+    keywords:
+    - prometheus
+    - monitoring
+    maintainers:
+    - email: guillaume.penaud@gmail.com
+      name: Guillaume Penaud
+    name: prometheus-operator-resources
+    urls:
+    - https://gpenaud.github.io/helm-charts/prometheus-operator-resources-0.0.4.tgz
+    version: 0.0.4
+  website-le-portail:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2022-06-12T11:29:28.975803375+02:00"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: ""
+      version: 0.1.0
+    description: The Helm chart for website le-portail in Kubernetes
+    digest: 06e442a3a57824c90fa49bf811832099cc10be7fe76cb371a4758399a5e0b429
+    keywords:
+    - web
+    - http
+    maintainers:
+    - email: guillaume.penaud@gmail.com
+      name: Guillaume Penaud
+    name: website-le-portail
+    sources:
+    - https://github.com/gpenaud/website-le-portail.git
+    - https://github.com/gpenaud/helm-website-le-portail.git
+    type: application
+    urls:
+    - https://gpenaud.github.io/helm-charts/website-le-portail-0.0.1.tgz
+    version: 0.0.1
+generated: "2022-06-12T11:29:28.971331548+02:00"
