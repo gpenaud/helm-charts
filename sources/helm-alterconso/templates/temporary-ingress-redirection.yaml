@@ -1,0 +1,28 @@
+{{- $svcPort := .Values.app.service.port -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: temporary-ingress-redirection-from-cagette-to-alterconso
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-production-clusterissuer"
+    cert-manager.io/issue-temporary-certificate: "true"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: "return 302 https://alterconso.leportail.org/;"
+spec:
+  tls:
+    - hosts:
+        - cagette.leportail.org
+      secretName: cagette.leportail.org-tls
+  rules:
+    - host: cagette.leportail.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "alterconso.fullname" . }}
+                port:
+                  number: {{ $svcPort }}
