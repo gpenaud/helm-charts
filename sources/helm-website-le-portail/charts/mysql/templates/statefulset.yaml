@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-mysql
+spec:
+  replicas: {{ .Values.replicaCount }}
+  serviceName: {{ .Release.Name }}-mysql
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-mysql
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-mysql
+    spec:
+      terminationGracePeriodSeconds: 10
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-mysql
+      containers:
+        - name: mysql
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: mysql
+              protocol: TCP
+              containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_HOST
+              value: "%"
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root"
+            - name: MYSQL_DATABASE
+              value: "db"
+            - name: MYSQL_USER
+              value: "docker"
+            - name: MYSQL_PASSWORD
+              value: "docker"
+          volumeMounts:
+            - name: {{ .Release.Name }}-mysql-data
+              mountPath: "/var/lib/mysql"
+            - name: {{ .Release.Name }}-mysql-config
+              mountPath: "/etc/mysql/conf.d"
+              readOnly: true
+      volumes:
+        - name: {{ .Release.Name }}-mysql-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-mysql
+        - name: {{ .Release.Name }}-mysql-config
+          configMap:
+            name: {{ .Release.Name }}-mysql
+            items:
+            - key: "my.cnf"
+              path: "my.cnf"

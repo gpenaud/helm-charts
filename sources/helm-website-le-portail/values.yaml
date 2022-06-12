@@ -1,0 +1,64 @@
+nameOverride: ""
+fullnameOverride: ""
+
+app:
+  replicaCount: 1
+  image:
+    repository: rg.fr-par.scw.cloud/le-portail/website
+    pullPolicy: IfNotPresent
+    tag: "0.0.1"
+  imagePullSecrets:
+    - name: regcred
+  configuration:
+    vhost_www: www.test.leportail.org
+    vhost_admin: admin.test.leportail.org
+    mysql_user: root
+    mysql_password: root
+    mysql_db: leportaivfgam
+    mysql_table_prefix: dcgamv3_
+  serviceAccount:
+    create: true
+    name: ""
+  service:
+    type: ClusterIP
+    port: 80
+  ingress:
+    enabled: true
+    className: ""
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: "letsencrypt-production-clusterissuer"
+      cert-manager.io/issue-temporary-certificate: "true"
+      acme.cert-manager.io/http01-edit-in-place: "true"
+    hosts:
+      - host: www.test.leportail.org
+        paths:
+          - path: /
+            pathType: Prefix
+      - host: admin.test.leportail.org
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - www.test.leportail.org
+        secretName: www.test.leportail.org-tls
+      - hosts:
+          - admin.test.leportail.org
+        secretName: admin.test.leportail.org-tls
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 2
+    targetCPUUtilizationPercentage: 90
+    targetMemoryUtilizationPercentage: 90
+
+mysql:
+  enabled: true
+  image:
+    repository: mysql
+    pullPolicy: IfNotPresent
+    tag: "5.6.50"
+  pv:
+    host_path: /mnt/leportail-website

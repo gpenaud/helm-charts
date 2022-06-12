@@ -1,0 +1,16 @@
+apiVersion: v2
+name: hairpin-protocol
+description: Implementation of hairpin protocol, which allows cert-manager to challenge against http01
+type: application
+version: 0.1.1
+appVersion: "0.1.0"
+
+sources:
+  - https://github.com/gpenaud/helm-hairpin-protocol.git
+
+keywords:
+  - system
+
+maintainers:
+  - email: guillaume.penaud@gmail.com
+    name: Guillaume Penaud

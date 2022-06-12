@@ -1,0 +1,103 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}
+data:
+  config.php: |
+    <?php
+    /**
+     * @package Dotclear
+     *
+     * @copyright Olivier Meunier & Association Dotclear
+     * @copyright GPL-2.0-only
+     */
+
+    if (!defined('DC_RC_PATH')) {return;}
+
+    // Database driver (mysql (deprecated, disabled in PHP7), mysqli, mysqlimb4 (full UTF-8), pgsql, sqlite)
+    define('DC_DBDRIVER','mysqli');
+
+    // Database hostname (usually "localhost")
+    define('DC_DBHOST','{{ .Release.Name }}-mysql');
+
+    // Database user
+    define('DC_DBUSER','{{ .Values.app.configuration.mysql_user }}');
+
+    // Database password
+    define('DC_DBPASSWORD','{{ .Values.app.configuration.mysql_password }}');
+
+    // Database name
+    define('DC_DBNAME','{{ .Values.app.configuration.mysql_db }}');
+
+    // Tables' prefix
+    define('DC_DBPREFIX','{{ .Values.app.configuration.mysql_table_prefix }}');
+
+    // Persistent database connection
+    define('DC_DBPERSIST', false);
+
+    // Crypt key (password storage)
+    define('DC_MASTER_KEY','13722d8a0581e403bd1b6a10fbb9336a');
+
+    // Admin URL. You need to set it for some features.
+    define('DC_ADMIN_URL','https://admin.leportail.org/');
+
+    // Admin mail from address. For password recovery and such.
+    define('DC_ADMIN_MAILFROM','webmaster@leportail.org');
+
+    // Cookie's name
+    define('DC_SESSION_NAME', 'dcxd');
+
+    // Plugins root
+    define('DC_PLUGINS_ROOT',dirname(__FILE__).'/../plugins'.PATH_SEPARATOR.dirname(__FILE__).'/../../all-blogs/plugins');
+
+    // Template cache directory
+    define('DC_TPL_CACHE', path::real(dirname(__FILE__) . '/..') . '/cache');
+
+    // Var directory
+    define('DC_VAR', path::real(dirname(__FILE__) . '/..') . '/var');
+
+    // Cryptographic algorithm
+    define('DC_CRYPT_ALGO', 'sha512');
+
+    // For cryptography
+    define('DC_VENDOR_NAME', "website-leportail");
+
+    // force admin context
+    define('DC_CONTEXT_ADMIN', true);
+
+  vhost-www.conf: |
+    <VirtualHost *:80>
+      ServerName  {{ .Values.app.configuration.vhost_www }}
+      ServerAdmin  guillaume.penaud@gmail.com
+
+      DocumentRoot /var/www/html
+
+      <Directory /var/www/html>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+        EnableSendfile Off
+      </Directory>
+    </VirtualHost>
+
+  vhost-admin.conf: |
+    <VirtualHost *:80>
+      ServerName  {{ .Values.app.configuration.vhost_admin }}
+      ServerAdmin  guillaume.penaud@gmail.com
+
+      DocumentRoot /var/www/html/dotclear/admin
+
+      <Directory /var/www/html/dotclear/admin>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+        EnableSendfile Off
+      </Directory>
+    </VirtualHost>
+
+  htaccess: |
+    Options +ExecCGI -MultiViews -Indexes
+    RewriteEngine on
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule (.*) /index.php/$1 [L]

@@ -1,0 +1,16 @@
+apiVersion: v2
+name: nginx-ingress
+description: The nginx-ingress Helm chart for Kubernetes
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+
+sources:
+  - https://github.com/gpenaud/helm-nginx-ingress.git
+
+keywords:
+  - system
+
+maintainers:
+  - email: guillaume.penaud@gmail.com
+    name: Guillaume Penaud

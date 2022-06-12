@@ -1,0 +1,23 @@
+apiVersion: v2
+name: website-le-portail
+description: The Helm chart for website le-portail in Kubernetes
+type: application
+version: 0.0.1
+appVersion: "0.0.1"
+
+sources:
+  - https://github.com/gpenaud/website-le-portail.git
+  - https://github.com/gpenaud/helm-website-le-portail.git
+
+dependencies:
+  - condition: mysql.enabled
+    name: mysql
+    version: 0.1.0
+
+keywords:
+  - web
+  - http
+
+maintainers:
+  - email: guillaume.penaud@gmail.com
+    name: Guillaume Penaud

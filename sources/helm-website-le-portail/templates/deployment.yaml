@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "website.fullname" . }}
+  labels:
+    {{- include "website.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.app.autoscaling.enabled }}
+  replicas: {{ .Values.app.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "website.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.app.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "website.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.app.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "website.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.app.podSecurityContext | nindent 8 }}
+      initContainers:
+        {{- toYaml .Values.app.initContainers | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.app.securityContext | nindent 12 }}
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: {{ $.Release.Name }}-volume
+              mountPath: "/var/www/html/dotclear/inc/config.php"
+              subPath: config.php
+              readOnly: true
+            - name: {{ $.Release.Name }}-volume
+              mountPath: "/etc/apache2/sites-available/{{ $.Values.app.configuration.vhost_www }}.conf"
+              subPath: vhost-www.conf
+              readOnly: true
+            - name: {{ $.Release.Name }}-volume
+              mountPath: "/etc/apache2/sites-enabled/{{ $.Values.app.configuration.vhost_www }}.conf"
+              subPath: vhost-www.conf
+              readOnly: true
+            - name: {{ $.Release.Name }}-volume
+              mountPath: "/etc/apache2/sites-available/{{ $.Values.app.configuration.vhost_admin }}.conf"
+              subPath: vhost-admin.conf
+              readOnly: true
+            - name: {{ $.Release.Name }}-volume
+              mountPath: "/etc/apache2/sites-enabled/{{ $.Values.app.configuration.vhost_admin }}.conf"
+              subPath: vhost-admin.conf
+              readOnly: true
+            - name: {{ $.Release.Name }}-volume
+              mountPath: /var/www/html/.htaccess
+              subPath: htaccess
+              readOnly: true
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {{- toYaml .Values.app.resources | nindent 12 }}
+          env:
+            {{- range $key, $value := .Values.app.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+            {{- end }}
+      volumes:
+        - name: {{ .Release.Name }}-volume
+          configMap:
+            name: {{ .Release.Name }}
+            items:
+              - key: config.php
+                path: config.php
+              - key: vhost-www.conf
+                path: vhost-www.conf
+              - key: vhost-admin.conf
+                path: vhost-admin.conf
+              - key: htaccess
+                path: htaccess
+      {{- with .Values.app.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.app.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.app.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
