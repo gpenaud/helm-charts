@@ -1,0 +1,43 @@
+{{- if .Values.alterconso.ingress.enabled -}}
+{{- $fullName := include "alterconso.fullname" . -}}
+{{- $svcPort := .Values.alterconso.service.port -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "alterconso.labels" . | nindent 4 }}
+  {{- with .Values.alterconso.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.alterconso.ingress.className }}
+  ingressClassName: {{ .Values.alterconso.ingress.className }}
+  {{- end }}
+  {{- if .Values.alterconso.ingress.tls }}
+  tls:
+    {{- range .Values.alterconso.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range .Values.alterconso.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ $fullName }}-webapp
+                port:
+                  number: {{ .backend.port }}
+          {{- end }}
+    {{- end }}
+{{- end }}

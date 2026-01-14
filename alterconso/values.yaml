@@ -1,0 +1,100 @@
+nameOverride: ""
+fullnameOverride: ""
+
+alterconso:
+  # application configuration #
+  # --------------------------#
+  configuration:
+    
+    webapp:
+      vhost: alterconso.localhost
+      sql_log_enabled: false
+      debug_enabled: true
+      mailer_host: localhost
+      mailer_port: 5000
+      database_enabled: true
+      database_user: alterconso
+      database_host: alterconso-database
+      database_port: 3306
+      database_database: alterconso
+
+  # containers configuration #
+  # -------------------------#
+  containers:
+    webapp:
+      replicaCount: 1
+      image:
+        repository: alterconso/webapp
+        # pullPolicy: IfNotPresent
+        pullPolicy: Never
+        tag: "1.0.0"
+      imagePullSecrets: []
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 250m
+          memory: 256Mi
+
+  serviceAccount:
+    create: true
+    name: ""
+
+  service:
+    type: ClusterIP
+    ports:
+      - name: http
+        port: 80
+        target: 80
+      - name: mailer
+        port: 5000
+        target: 5000
+
+  ingress:
+    enabled: true
+    className: ""
+    annotations:
+      kubernetes.io/ingress.class: "traefik"
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: "letsencrypt-staging-clusterissuer"
+      cert-manager.io/issue-temporary-certificate: "true"
+      acme.cert-manager.io/http01-edit-in-place: "true"
+    hosts:
+      - host: alterconso.localhost
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              port: 80
+    tls:
+      - hosts:
+        - alterconso.localhost
+        secretName: alterconso.localhost-tls
+
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 2
+    targetCPUUtilizationPercentage: 90
+    targetMemoryUtilizationPercentage: 90
+
+database:
+  backup:
+    enabled: false
+  configuration: ~
+  containers:
+    database:
+      env:
+        MYSQL_USER: alterconso
+        MYSQL_DATABASE: alterconso
+      replicaCount: 1
+      image:
+        repository: mysql
+        pullPolicy: IfNotPresent
+        tag: "5.7"
+      pv:
+        host_path: /mnt/k3s-data

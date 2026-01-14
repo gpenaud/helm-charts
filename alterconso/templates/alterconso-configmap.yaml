@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-webapp
+  namespace: {{ .Values.namespace }}
+data:
+  config.xml: |
+    <config
+    	lang="fr"
+    	langs="fr;de;en"
+    	langnames="Français;Deutsch;English"
+
+      host="{{ .Values.alterconso.configuration.webapp.vhost }}"
+      name = "Alterconso - Le Portail"
+      default_email = "alterconso@leportail.org"
+      webmaster_email = "mon_email@mon_domaine.fr"
+
+      database="database://{{ .Values.alterconso.configuration.webapp.database_user }}:frayanadele71!@{{ .Values.alterconso.configuration.webapp.database_host }}:{{ .Values.alterconso.configuration.webapp.database_port }}/{{ .Values.alterconso.configuration.webapp.database_database }}"
+
+      {{- if .Values.alterconso.configuration.webapp.sql_log_enabled }}
+      sqllog="1"
+      {{ else }}
+      sqllog="0"
+      {{ end }}
+      {{- if .Values.alterconso.configuration.webapp.debug_enabled }}
+      debug="1"
+      {{ else }}
+      debug="0"
+      {{ end }}
+    	cache="0"
+    	maintain="0"
+    	cachetpl="0"
+      key="{{ .Values.alterconso.configuration.webapp.password_salt_cache_key | default "localdevkey" }}"
+      alterconso_api="{{ .Values.alterconso.configuration.webapp.api_url | default "http://localhost:3010" }}"
+    />
+
+  vhost.conf: |
+    <VirtualHost *:80>
+      ServerName  {{ .Values.alterconso.configuration.webapp.vhost }}
+      ServerAdmin  guillaume.penaud@gmail.com
+
+      DocumentRoot /var/www/alterconso/www
+
+      <Directory /var/www/alterconso/www>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+        EnableSendfile Off
+      </Directory>
+    </VirtualHost>

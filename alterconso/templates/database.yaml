@@ -1,0 +1,133 @@
+{{- $fullName := include "alterconso.fullname" . -}}
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $fullName }}-database
+spec:
+  replicas: {{ .Values.database.containers.database.replicaCount }}
+  serviceName: {{ $fullName }}-database
+  selector:
+    matchLabels:
+      app: {{ $fullName }}-database
+  template:
+    metadata:
+      labels:
+        app: {{ $fullName }}-database
+    spec:
+      terminationGracePeriodSeconds: 10
+      volumes:
+        - name: database-data
+          persistentVolumeClaim:
+            claimName: {{ $fullName }}-database
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.database.containers.database.image.repository }}:{{ .Values.database.containers.database.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.database.containers.database.image.pullPolicy }}
+          ports:
+            - name: database
+              protocol: TCP
+              containerPort: 3306
+          env:
+            {{- range $key, $value := $.Values.database.containers.database.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+            {{- end }}
+            {{- range $key, $value := $.Values.database.containers.database.env_as_secrets }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $fullName }}-database-secrets
+                  key: {{ $key }}
+            {{- end }}
+          volumeMounts:
+            - name: {{ $fullName }}-database-data
+              mountPath: "/var/lib/mysql"
+            - name: {{ $fullName }}-database-config
+              mountPath: "/etc/mysql/conf.d"
+            - name: {{ $fullName }}-database-scripts
+              mountPath: "/etc/mysql/scripts"
+              readOnly: true
+      volumes:
+        - name: {{ $fullName }}-database-data
+          persistentVolumeClaim:
+            claimName: {{ $fullName }}-database
+        - name: {{ $fullName }}-database-config
+          configMap:
+            name: {{ $fullName }}-database-config
+            items:
+            - key: "my.cnf"
+              path: "my.cnf"
+        - name: {{ $fullName }}-database-scripts
+          configMap:
+            name: {{ $fullName }}-database-scripts
+            items:
+            - key: "backup.sh"
+              path: "backup.sh"
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $fullName }}-database
+  labels:
+    app: {{ $fullName }}-database
+spec:
+  clusterIP: None
+  selector:
+    app: {{ $fullName }}-database
+  ports:
+    - name: tcp
+      protocol: TCP
+      port: 3306
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ $fullName }}-database
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: local-storage
+  local:
+    path: /var/lib/{{ $fullName }}/data
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - srv521992
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $fullName }}-database
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi 
+  storageClassName: local-storage 
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+    name: {{ $fullName }}-database
+type: Opaque
+data:
+  MYSQL_ROOT_PASSWORD: cm9vdAo=
