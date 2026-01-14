@@ -1,0 +1,17 @@
+apiVersion: v1
+entries:
+  alterconso:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2026-01-14T11:25:41.875740906+01:00"
+    description: A Helm chart to deploy Alterconso application on Kubernetes
+    digest: 0ff449fc304db4ecbadbe0000d52e813db24f27958b465e49a24ccac68c6d65c
+    maintainers:
+    - email: guillaume.penaud@gmail.com
+      name: Guillaume Penaud
+    name: alterconso
+    type: application
+    urls:
+    - alterconso-1.0.0.tgz
+    version: 1.0.0
+generated: "2026-01-14T11:25:41.865870481+01:00"
