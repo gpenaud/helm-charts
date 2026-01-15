@@ -2,16 +2,24 @@ apiVersion: v1
 entries:
   alterconso:
   - apiVersion: v2
-    appVersion: 0.1.0
-    created: "2026-01-14T11:25:41.875740906+01:00"
-    description: A Helm chart to deploy Alterconso application on Kubernetes
-    digest: 0ff449fc304db4ecbadbe0000d52e813db24f27958b465e49a24ccac68c6d65c
+    appVersion: 1.0.0
+    created: "2026-01-15T16:32:31.853254036+01:00"
+    description: Helm chart for Alterconso, a free fork of Cagette, a tool to manage
+      selling and distribution of ethical food products.
+    digest: 59a0403abd71d6b1cf3e1f3c343d5c1176c09436570933451dfdb9701cf9225d
+    home: https://alterconso.leportail.org
+    icon: A URL to an SVG or PNG image to be used as an icon (optional).
+    keywords:
+    - food
+    - ethical
     maintainers:
     - email: guillaume.penaud@gmail.com
       name: Guillaume Penaud
     name: alterconso
+    sources:
+    - https://github.com/gpenaud/alterconso.git
     type: application
     urls:
-    - alterconso-1.0.0.tgz
-    version: 1.0.0
-generated: "2026-01-14T11:25:41.865870481+01:00"
+    - alterconso-0.0.1.tgz
+    version: 0.0.1
+generated: "2026-01-15T16:32:31.852208357+01:00"
