@@ -1,1 +1,0 @@
-# Alterconso Helm Chart
