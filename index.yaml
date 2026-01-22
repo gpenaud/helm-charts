@@ -3,10 +3,31 @@ entries:
   alterconso:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-01-15T16:39:13.826438164+01:00"
+    created: "2026-01-22T11:43:07.958238654+01:00"
     description: Helm chart for Alterconso, a free fork of Cagette, a tool to manage
       selling and distribution of ethical food products.
-    digest: fd42a1e26a8f17c2728722cf617d672ac21cd7e788668abc652a67df49bd27d1
+    digest: 2e7822b46afa22639f9d4f2a1548b6fa28f2023dfbc713ca321ddf32ab782621
+    home: https://alterconso.leportail.org
+    icon: A URL to an SVG or PNG image to be used as an icon (optional).
+    keywords:
+    - food
+    - ethical
+    maintainers:
+    - email: guillaume.penaud@gmail.com
+      name: Guillaume Penaud
+    name: alterconso
+    sources:
+    - https://github.com/gpenaud/alterconso.git
+    type: application
+    urls:
+    - alterconso-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-01-22T11:43:07.957632909+01:00"
+    description: Helm chart for Alterconso, a free fork of Cagette, a tool to manage
+      selling and distribution of ethical food products.
+    digest: 21230124078a0fbd6ea2504cdf53fb85f1f823148817a8d2b83e311c424c2965
     home: https://alterconso.leportail.org
     icon: A URL to an SVG or PNG image to be used as an icon (optional).
     keywords:
@@ -22,4 +43,4 @@ entries:
     urls:
     - alterconso-0.0.2.tgz
     version: 0.0.2
-generated: "2026-01-15T16:39:13.824952439+01:00"
+generated: "2026-01-22T11:43:07.95677126+01:00"
