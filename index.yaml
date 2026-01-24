@@ -3,10 +3,10 @@ entries:
   alterconso:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-01-22T11:43:07.958238654+01:00"
+    created: "2026-01-24T13:55:41.829037767+01:00"
     description: Helm chart for Alterconso, a free fork of Cagette, a tool to manage
       selling and distribution of ethical food products.
-    digest: 2e7822b46afa22639f9d4f2a1548b6fa28f2023dfbc713ca321ddf32ab782621
+    digest: 87d2f0afeefce122029579c42875003c6b47906d376c6db35505a6b1796521f5
     home: https://alterconso.leportail.org
     icon: A URL to an SVG or PNG image to be used as an icon (optional).
     keywords:
@@ -24,7 +24,7 @@ entries:
     version: 0.0.3
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-01-22T11:43:07.957632909+01:00"
+    created: "2026-01-24T13:55:41.82829477+01:00"
     description: Helm chart for Alterconso, a free fork of Cagette, a tool to manage
       selling and distribution of ethical food products.
     digest: 21230124078a0fbd6ea2504cdf53fb85f1f823148817a8d2b83e311c424c2965
@@ -43,4 +43,4 @@ entries:
     urls:
     - alterconso-0.0.2.tgz
     version: 0.0.2
-generated: "2026-01-22T11:43:07.95677126+01:00"
+generated: "2026-01-24T13:55:41.826867789+01:00"
