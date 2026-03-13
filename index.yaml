@@ -3,10 +3,10 @@ entries:
   alterconso:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-03-13T13:52:47.250274347+01:00"
+    created: "2026-03-13T14:35:16.152704637+01:00"
     description: Helm chart for Alterconso, a free fork of Cagette, a tool to manage
       selling and distribution of ethical food products.
-    digest: 3ded508a02a5ceedb71c1d280b783b7873566102611ed3b2c9658589637e3460
+    digest: c1b7cdc14e2fdfb1fd32273a6483c8dbf9966a0e5ad2c888a9e5dfa272fa9528
     home: https://alterconso.leportail.org
     icon: A URL to an SVG or PNG image to be used as an icon (optional).
     keywords:
@@ -24,7 +24,7 @@ entries:
     version: 0.0.5
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-03-13T13:52:47.248566737+01:00"
+    created: "2026-03-13T14:35:16.15205082+01:00"
     description: Helm chart for Alterconso, a free fork of Cagette, a tool to manage
       selling and distribution of ethical food products.
     digest: b6d8a4b1a44782c0e7231166358e043332a3a414f33f18bf128900ec42f04541
@@ -45,7 +45,7 @@ entries:
     version: 0.0.4
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-03-13T13:52:47.246374407+01:00"
+    created: "2026-03-13T14:35:16.151287679+01:00"
     description: Helm chart for Alterconso, a free fork of Cagette, a tool to manage
       selling and distribution of ethical food products.
     digest: 05b1f09ed52cc17b81260d8a37685d0d7341f0105afd495da0a22c11f3e9012f
@@ -66,7 +66,7 @@ entries:
     version: 0.0.3
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-03-13T13:52:47.245587156+01:00"
+    created: "2026-03-13T14:35:16.150313796+01:00"
     description: Helm chart for Alterconso, a free fork of Cagette, a tool to manage
       selling and distribution of ethical food products.
     digest: 21230124078a0fbd6ea2504cdf53fb85f1f823148817a8d2b83e311c424c2965
@@ -85,4 +85,4 @@ entries:
     urls:
     - alterconso-0.0.2.tgz
     version: 0.0.2
-generated: "2026-03-13T13:52:47.244505972+01:00"
+generated: "2026-03-13T14:35:16.149021599+01:00"
